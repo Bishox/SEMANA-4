@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Definimos una clase para los pacientes
-public class Paciente
+// Definimos una estructura (struct) para el Paciente
+public struct Paciente
 {
-    public string Cedula { get; set; } // Nueva propiedad para la cédula
+    private string Cedula { get; } // Encapsulamos la cédula
     public string Nombre { get; set; }
     public int Edad { get; set; }
     public DateTime FechaTurno { get; set; }
     public string Urgencia { get; set; }
 
+    // Constructor para inicializar un Paciente 
     public Paciente(string cedula, string nombre, int edad, DateTime fechaTurno, string urgencia)
     {
         Cedula = cedula;
@@ -17,6 +18,12 @@ public class Paciente
         Edad = edad;
         FechaTurno = fechaTurno;
         Urgencia = urgencia;
+    }
+
+    // Método para mostrar la cédula (no se puede acceder directamente desde fuera)
+    public string ObtenerCedula()
+    {
+        return Cedula;
     }
 }
 
@@ -45,18 +52,16 @@ public class AgendaTurnos
             return;
         }
 
-        // Dibujamos la cabecera de la tabla
+        // cabecera de la tabla
         Console.WriteLine(new string('-', 80));
         Console.WriteLine($"{"Cédula",-15} {"Nombre",-20} {"Edad",-5} {"Fecha de Turno",-20} {"Urgencia",-10}");
         Console.WriteLine(new string('-', 80));
 
-        // Dibujamos cada fila
         foreach (var paciente in pacientes)
         {
-            Console.WriteLine($"{paciente.Cedula,-15} {paciente.Nombre,-20} {paciente.Edad,-5} {paciente.FechaTurno,-20:yyyy-MM-dd HH:mm} {paciente.Urgencia,-10}");
+            Console.WriteLine($"{paciente.ObtenerCedula(),-15} {paciente.Nombre,-20} {paciente.Edad,-5} {paciente.FechaTurno,-20:yyyy-MM-dd HH:mm} {paciente.Urgencia,-10}");
         }
 
-        // Dibujamos el pie de la tabla
         Console.WriteLine(new string('-', 80));
     }
 }
@@ -65,20 +70,19 @@ public class AgendaTurnos
 public class Program
 {
     public static void Main()
-    {   
-
+    {
         Console.WriteLine(@"    █████╗  ██████╗ ███████╗███╗   ██╗██████╗  █████╗     ███╗   ███╗███████╗██████╗ ██╗ ██████╗ █████╗ ");
         Console.WriteLine(@"   ██╔══██╗██╔════╝ ██╔════╝████╗  ██║██╔══██╗██╔══██╗    ████╗ ████║██╔════╝██╔══██╗██║██╔════╝██╔══██╗");
         Console.WriteLine(@"   ███████║██║  ███╗█████╗  ██╔██╗ ██║██║  ██║███████║    ██╔████╔██║█████╗  ██║  ██║██║██║     ███████║");
         Console.WriteLine(@"   ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║██║  ██║██╔══██║    ██║╚██╔╝██║██╔══╝  ██║  ██║██║██║     ██╔══██║");
         Console.WriteLine(@"   ██║  ██║╚██████╔╝███████╗██║ ╚████║██████╔╝██║  ██║    ██║ ╚═╝ ██║███████╗██████╔╝██║╚██████╗██║  ██║");
         Console.WriteLine(@"   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝    ╚═╝     ╚═╝╚══════╝╚═════╝ ╚═╝ ╚═════╝╚═╝  ╚═╝");
+
         AgendaTurnos agenda = new AgendaTurnos();
         bool continuar = true;
 
         while (continuar)
         {
-            
             Console.WriteLine("\n--- Menú de Opciones ---");
             Console.WriteLine("1. Agregar paciente");
             Console.WriteLine("2. Visualizar turnos");
@@ -96,7 +100,7 @@ public class Program
                     string nombre = Console.ReadLine();
                     Console.Write("Ingrese la edad del paciente: ");
                     int edad = int.Parse(Console.ReadLine());
-                    Console.Write("Ingrese la fecha del turno (yyyy-MM-dd HH:mm): ");
+                    Console.Write("Ingrese la fecha del turno (AÑO-MES-DIA HORA:MINUTOS): ");
                     DateTime fechaTurno = DateTime.Parse(Console.ReadLine());
                     Console.Write("Ingrese el nivel de urgencia (Urgente, Moderada, Baja): ");
                     string urgencia = Console.ReadLine();
